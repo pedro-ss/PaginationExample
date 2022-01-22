@@ -37,6 +37,8 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
      */
     @Query("FROM Product p " +
     "WHERE LOWER(p.name) like %:name% " +
-    "AND LOWER(p.price) = :price")
+    "AND LOWER(p.price) = :price ")
     Page<Product> findProductsByNamePrice(@Param("name") String name, @Param("price") Double price, Pageable pageable);
+
+    Page<Product> findAll(Pageable pageable);
 }

@@ -1,8 +1,11 @@
 package br.com.pagination.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,20 +13,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.pagination.model.Product;
 import br.com.pagination.service.ProductService;
 
-@Controller
-@RequestMapping("/produtos")
+@Controller(value = "/")
 public class ProductController {
     
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/listar", method = RequestMethod.GET)
-    public Page<Product> searchProduct(
-        @RequestParam(value = "name", required = false) String name, 
-        @RequestParam(value = "price", required = false) Double price,
-        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-        @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+    @GetMapping
+    @PostMapping
+    public String searchProduct(
+        @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "10") int size, 
+        @ModelAttribute("product") Product product, Model model) {
 
-            return productService.getProductsPaginated(name, price, size, size);
+            model.addAttribute("produtos", productService.getProducts(product, page, size));
+            model.addAttribute("currentPage", page);
+            return "products";
         }
+
+    
 }

@@ -1,9 +1,13 @@
 package br.com.pagination.service;
 
+import javax.persistence.criteria.Order;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.pagination.model.Product;
@@ -45,7 +49,7 @@ public class ProductService {
      * @param price price (preço usado para filtragem)
      * @param page (qual página será exibida)
      * @param size (quantidade de itens por página)
-     * @return
+     * @return Page de produtos paginados
      */
     public Page<Product> getProductsPaginated(String name, Double price, int page, int size) {
 
@@ -61,5 +65,22 @@ public class ProductService {
         }
         // se nenhum dos dois for vazio, utiliza os dois.
         return repository.findProductsByNamePrice(name, price, pageSize);
+    }
+
+    /**
+     * 
+     * @param product (Objeto de retorno e usado para filtragem)
+     * @param page (qual página será exibida)
+     * @param size (quantidade de itens por página)
+     * @return Page de produtos paginados
+     */
+    public Page<Product> getProducts(Product product, int page, int size) {
+        PageRequest request = PageRequest.of(page , size);
+
+        if(product.getName() != null || product.getPrice() != null ){
+            getProductsPaginated(product.getName(), product.getPrice(), page, size);
+        }
+
+        return repository.findAll(request);
     }
 }
