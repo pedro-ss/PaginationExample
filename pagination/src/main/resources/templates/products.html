@@ -1,100 +1,108 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8"/>
-    <title>Vendinha do seu Zezo</title>
-    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+	<meta charset="UTF-8" />
+	<title>Vendinha do seu Zezo</title>
+	<link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 </head>
+
 <body>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg table-hover navbar-dark bg-dark static-top">
-    <div class="container">
-        <a class="navbar-brand" href="/">Vendinha de seu Zezo</a>
-    </div>
-    <!-- botão de modal-->
-    <div class="row justify-content-end col-6">        
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productSearch">
-            Pesquisar produtos
-        </button>
-    </div>
-    <br>
-    <!-- botão de modal-->
-</nav>
-<!-- inicio modal -->
-<div class="modal" tabindex="-1" id="productSearch" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Busca de Produtos</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="#" th:action="@{/}" th:object="${product}" method="GET">
-                <div class="form-group">
-                  <label for="nameInput">Nome</label>
-                  <input type="text" class="form-control" id="nameInput" placeholder="Nome" th:field="*{name}">
-                </div>
-                <div class="form-group">
-                  <label for="priceInput">Preço</label>
-                  <input type="text" class="form-control" id="priceInput" placeholder="Preço" th:field="*{price}">
-                </div>
-                <button type="submit" class="btn btn-success" >Pesquisar</button>
-              </form>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- fim modal -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-10 mt-5 mb-5">
-            <table id="produtos" class="table table-bordered table-responsive-sm">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Código</th>
-                    <th>Preço</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="produto : ${produtos.getContent()}">
-                    <td th:text="${produto.name}">name</td>
-                    <td th:text="${produto.code}">code</td>
-                    <td th:text="${produto.price}">price</td>
-                </tr>
-                </tbody>
-            </table>
-            <hr/>
-            <!-- -->
-            <nav aria-label="Page navigation" class="paging">
-                <ul class="pagination" th:if="${produtos.size > 1}">
-                    <li class="page-item" th:classappend="${!produtos.hasPrevious() ? 'disabled' : ''}">
-                        <a class="page-link" th:href="@{/(page=${currentPage-1})}"
-                           tabindex="-1">Anterior</a>
-                    </li>
-                    <li class="page-item" th:each="item : ${#numbers.sequence(1,(produtos.getTotalPages()))}" >
-                        <a class="page-link" th:href="@{/(page=${item})}" th:text="${item}"
-                        th:classappend="${currentPage == item ? 'disabled' : ''}"
-                        tabindex="-1"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${!produtos.hasNext() ? 'disabled' : ''}">
-                        <a class="page-link" th:href="@{/(page=${currentPage+1})}">Próximo</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg table-hover navbar-dark bg-dark static-top">
+		<div class="container">
+			<a class="navbar-brand" href="/">Vendinha de seu Zezo</a>
 
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+			<div class="row justify-content-end col-6">
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productSearch">
+					Pesquisar produtos
+				</button>
+			</div>
+		</div>
+		<!-- botão de modal-->
+	</nav>
+
+	<!-- inicio modal -->
+	<div class="modal" tabindex="-1" id="productSearch" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Busca de Produtos</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="#" th:action="@{/}" th:object="${product}" method="GET">
+						<div class="form-group">
+							<label for="nameInput">Nome</label>
+							<input type="text" class="form-control" id="nameInput" placeholder="Nome"
+								th:field="*{name}">
+						</div>
+						<div class="form-group">
+							<label for="priceInput">Preço</label>
+							<input type="number" class="form-control" id="priceInput" placeholder="Preço"
+								th:field="*{price}">
+						</div>
+						<button type="submit" class="btn btn-success">Pesquisar</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fim modal -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12 mt-5 mb-5">
+				<table id="produtos" class="table table-bordered table-responsive-sm">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Código</th>
+							<th>Preço</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="produto : ${produtos.getContent()}">
+							<td th:text="${produto.name}">name</td>
+							<td th:text="${produto.code}">code</td>
+							<td th:text="${produto.price}">price</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr />
+			</div>
+			
+			<div class="col-12">
+				<nav aria-label="Page navigation" class="paging ">
+					<span th:text="${produtos.getContent().size()}" ></span >
+					<ul class="pagination justify-content-center" th:if="${produtos.getContent().size() >= 1}">
+						<li class="page-item" th:classappend="${!produtos.hasPrevious() ? 'disabled' : ''}">
+							<a class="page-link" th:href="@{/(page=${currentPage-1})}" tabindex="-1">Anterior</a>
+						</li>
+						<li class="page-item" th:each="item : ${#numbers.sequence(1,(produtos.getTotalPages()))}">
+							<a class="page-link" th:href="@{/(page=${item})}" th:text="${item}"
+								th:classappend="${currentPage == item ? 'disabled' : ''}" tabindex="-1"></a>
+						</li>
+						<li class="page-item" th:classappend="${!produtos.hasNext() ? 'disabled' : ''}">
+							<a class="page-link" th:href="@{/(page=${currentPage+1})}">Próximo</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+		</div>
+	</div>
+
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
 </body>
+
 </html>
