@@ -26,7 +26,9 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
      * @param pageable (objeto que parametiza paginação, tamanho e em que página)
      * @return lista de objetos paginados
     */
-    Page<Product> findProductByName(String name, Pageable pageable);
+    @Query("FROM Product p " +
+    	    "WHERE LOWER(p.name) like %:name% ")
+    Page<Product> findProductByName(@Param("name") String name, Pageable pageable);
     
     /**
      * 
